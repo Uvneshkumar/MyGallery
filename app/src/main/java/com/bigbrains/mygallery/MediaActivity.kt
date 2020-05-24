@@ -5,36 +5,56 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
+import java.io.File
 import java.io.FileOutputStream
 
 class MediaActivity : Activity() {
 
-    private fun checkIntent(): Boolean {
-        if (intent.action.equals(Intent.ACTION_SEND)) {
-            if (intent.type?.startsWith("image/") == true || intent.type?.startsWith("video/") == true) {
-                val receivedUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                val receivedInputStream = contentResolver.openInputStream(receivedUri)
-                val fileName = Helper.queryName(contentResolver, receivedUri)
-                val outputStream =
-                    FileOutputStream(getExternalFilesDir("MyGallery")?.path + "/" + fileName)
-                Helper.copyFile(this, receivedInputStream, outputStream)
-                return false
-            } else {
-                return true
-            }
-        } else {
-            return true
-        }
-    }
+    private lateinit var mediaIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (checkIntent()) {
-            setContentView(R.layout.activity_main)
+        saveIntent()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mediaIntent.action.equals(Intent.ACTION_SEND) && (mediaIntent.type?.startsWith("image/") == true || mediaIntent.type?.startsWith(
+                "video/"
+            ) == true)
+        ) {
+            if (Helper.hasPermissions(this)) {
+                copyFileFromIntent()
+                finish()
+            } else {
+                startActivity(Intent(this, PermissionActivity::class.java))
+            }
         } else {
-            finish()
+            setContentView(R.layout.activity_main)
         }
+    }
+
+    private fun saveIntent() {
+        mediaIntent = intent
+    }
+
+    private fun copyFileFromIntent() {
+        val receivedUri = mediaIntent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+        val receivedInputStream = contentResolver.openInputStream(receivedUri)
+        val fileName = Helper.queryName(contentResolver, receivedUri)
+
+        val myDir = File(Environment.getExternalStorageDirectory(), "MyGallery")
+        if (!myDir.exists()) {
+            if (!myDir.mkdirs()) {
+                showToast("Error creating dir")
+            }
+        }
+        val myFile = File(myDir, fileName)
+        val outputStream = FileOutputStream(myFile)
+
+        Helper.copyFile(this, receivedInputStream, outputStream)
     }
 
 }

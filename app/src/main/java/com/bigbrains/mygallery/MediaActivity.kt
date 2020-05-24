@@ -45,7 +45,7 @@ class MediaActivity : Activity() {
         val receivedInputStream = contentResolver.openInputStream(receivedUri)
         val fileName = Helper.queryName(contentResolver, receivedUri)
 
-        val myDir = File(Environment.getExternalStorageDirectory(), "MyGallery")
+        val myDir = File(Environment.getExternalStorageDirectory(), "MyGalleryByBigBrains")
         if (!myDir.exists()) {
             if (!myDir.mkdirs()) {
                 showToast("Error creating dir")

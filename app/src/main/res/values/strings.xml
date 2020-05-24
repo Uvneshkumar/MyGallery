@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">My Gallery</string>
-    <string name="app_description">An app to save your favourite media files locally!</string>
+    <string name="app_description">An app to save your favourite media files locally\n\nAll files will be saved under <b>MyGalleryByBigBrains</b> folder in the root of internal storage.</string>
     <string name="allow_all">Allow All Permissions for the app to work correctly\n\nStorage - To save all media files shared to the app locally</string>
 </resources>

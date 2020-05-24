@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">My Gallery</string>
-    <string name="app_description">An app to save your favourite media files locally\n\nAll files will be saved under <b>MyGalleryByBigBrains</b> folder in the root of internal storage.</string>
+    <string name="app_description">Wanted to group all your mostly used media files in 1 place? This is the right place to do that. Just share the media that you like from any app to this app, and all your shared media will be stored locally in a separate folder allowing you to easily identify them whenever required. The app doesn\'t request Internet permission and hence all your data is stored only in your mobile and never gets leaked ;)\n\nAll files will be saved under <b>MyGalleryByBigBrains</b> folder in the root of internal storage.</string>
     <string name="allow_all">Allow All Permissions for the app to work correctly\n\nStorage - To save all media files shared to the app locally</string>
 </resources>
